@@ -60,7 +60,7 @@ export default function Contact() {
 
   return (
     <section
-  id="skills"
+  id="contact"
   ref={ref}
   className="py-24 px-6 bg-gray-50"
 >

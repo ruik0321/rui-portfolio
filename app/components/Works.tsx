@@ -37,7 +37,7 @@ export default function Works() {
 
   return (
     <section
-  id="skills"
+  id="works"
   ref={ref}
   className="py-24 px-6 bg-gray-50"
 >
