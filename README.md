@@ -1,12 +1,12 @@
 # Rui Portfolio
 
-フロントエンドエンジニア／デザイナーのポートフォリオサイトです。
+Ruiのポートフォリオサイトです。
 
-A portfolio site for a frontend engineer and designer.
+A portfolio site for Rui.
 
 ## URL
 
-https://vercel.com/rui-s-projects8
+https://rui-portfolio-rui-s-projects8.vercel.app/
 
 ## 構成 / Sections
 
