@@ -28,6 +28,15 @@ const WORKS = [
     github: "https://github.com/ruik0321/laundry-weather",
     image: "/works-laundry.png",
   },
+  {
+    title: "veyra-copying",
+    ja: "フロントエンドエンジニアとしてのポートフォリオ制作として、FigmaテンプレートをNext.jsで模写したプロジェクト。",
+    en: "A pixel-perfect implementation of the [Veyra Figma template built as a frontend portfolio project.",
+    tags: ["Next.js", "TypeScript", "Tailwind CSS"],
+    url: "https://veyra-copying-rui-s-projects8.vercel.app/",
+    github: "https://github.com/ruik0321/veyra-copying",
+    image: "/veyra-copying.png",
+  },
 ];
 
 export default function Works() {
@@ -37,71 +46,71 @@ export default function Works() {
 
   return (
     <section
-  id="works"
-  ref={ref}
-  className="py-24 px-6 bg-gray-50"
->
-  <div
-    className="max-w-5xl mx-auto transition-all duration-700"
-    style={{ opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(24px)" }}
-  >
-      <div className="max-w-5xl mx-auto">
-        <p className="text-xs tracking-widest text-gray-400 mb-2">{t.label}</p>
-        <h2 className="text-3xl font-light text-gray-900 mb-12" style={{ fontFamily: "var(--font-playfair)" }}>
-          {t.title}
-        </h2>
+      id="works"
+      ref={ref}
+      className="py-24 px-6 bg-gray-50"
+    >
+      <div
+        className="max-w-5xl mx-auto transition-all duration-700"
+        style={{ opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(24px)" }}
+      >
+        <div className="max-w-5xl mx-auto">
+          <p className="text-xs tracking-widest text-gray-400 mb-2">{t.label}</p>
+          <h2 className="text-3xl font-light text-gray-900 mb-12" style={{ fontFamily: "var(--font-playfair)" }}>
+            {t.title}
+          </h2>
 
-        <div className="grid md:grid-cols-2 gap-8">
-          {WORKS.map((work) => (
-            <div
-              key={work.title}
-              className="border border-gray-100 rounded-2xl p-6 hover:shadow-md transition-shadow"
-            >
-              <div className="rounded-xl h-48 mb-6 overflow-hidden">
-                <img
-                  src={work.image}
-                  alt={work.title}
-                  className="w-full h-full object-cover object-top"
-                />
-              </div>
-              <h3 className="text-lg font-medium text-gray-900 mb-2">
-                {work.title}
-              </h3>
-              <p className="text-sm text-gray-500 leading-relaxed mb-4">
-                {work[lang]}
-              </p>
-              <div className="flex flex-wrap gap-2 mb-6">
-                {work.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="text-xs text-gray-500 border border-gray-200 rounded-full px-3 py-1"
+          <div className="grid md:grid-cols-2 gap-8">
+            {WORKS.map((work) => (
+              <div
+                key={work.title}
+                className="border border-gray-100 rounded-2xl p-6 hover:shadow-md transition-shadow"
+              >
+                <div className="rounded-xl h-48 mb-6 overflow-hidden">
+                  <img
+                    src={work.image}
+                    alt={work.title}
+                    className="w-full h-full object-cover object-top"
+                  />
+                </div>
+                <h3 className="text-lg font-medium text-gray-900 mb-2">
+                  {work.title}
+                </h3>
+                <p className="text-sm text-gray-500 leading-relaxed mb-4">
+                  {work[lang]}
+                </p>
+                <div className="flex flex-wrap gap-2 mb-6">
+                  {work.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="text-xs text-gray-500 border border-gray-200 rounded-full px-3 py-1"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+                <div className="flex gap-4">
+
+                  <a href={work.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs bg-gray-900 text-white px-4 py-2 rounded-full hover:bg-gray-700 transition-colors"
                   >
-                    {tag}
-                  </span>
-                ))}
+                    {t.demo}
+                  </a>
+
+                  <a href={work.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs border border-gray-300 text-gray-600 px-4 py-2 rounded-full hover:border-gray-500 transition-colors"
+                  >
+                    {t.github}
+                  </a>
+                </div>
               </div>
-              <div className="flex gap-4">
-                
-                <a href={work.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-xs bg-gray-900 text-white px-4 py-2 rounded-full hover:bg-gray-700 transition-colors"
-                >
-                  {t.demo}
-                </a>
-                
-                 <a href={work.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-xs border border-gray-300 text-gray-600 px-4 py-2 rounded-full hover:border-gray-500 transition-colors"
-                >
-                  {t.github}
-                </a>
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
-      </div>
       </div>
     </section>
   );
