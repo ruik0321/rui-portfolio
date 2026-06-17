@@ -2,49 +2,40 @@
 
 import { useState } from "react";
 import { useLang } from "../context/LangContext";
-import { useScrollAnimation } from "../hooks/useScrollAnimation";
 import { GITHUB_URL } from "../constants/profile";
+import SectionWrapper from "./ui/SectionWrapper";
+import Button from "./ui/Button";
+import { GitHub } from "./ui/Icons";
+
+const COPYRIGHT = "© 2025 Rui";
 
 const content = {
   ja: {
-    label: "CONTACT",
-    title: "Contact",
     desc: "お仕事のご依頼・ご相談はこちらからお気軽にどうぞ。",
     name: "お名前",
     email: "メールアドレス",
     message: "お問い合わせ内容",
     send: "送信する",
     sent: "送信しました。ありがとうございます！",
-    copyright: "© 2025 Rui",
   },
   en: {
-    label: "CONTACT",
-    title: "Contact",
     desc: "Feel free to reach out for work inquiries or consultations.",
     name: "Your Name",
     email: "Email Address",
     message: "Message",
     send: "Send",
     sent: "Thank you! Your message has been sent.",
-    copyright: "© 2025 Rui",
   },
 };
 
 export default function Contact() {
-  const { ref, visible } = useScrollAnimation();
   const { lang } = useLang();
   const t = content[lang];
 
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: "",
-  });
+  const [formData, setFormData] = useState({ name: "", email: "", message: "" });
   const [sent, setSent] = useState(false);
 
-  function handleChange(
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) {
+  function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   }
 
@@ -59,100 +50,59 @@ export default function Contact() {
   }
 
   return (
-    <section
-  id="contact"
-  ref={ref}
-  className="py-24 px-6 bg-gray-50"
->
-  <div
-    className="max-w-5xl mx-auto transition-all duration-700"
-    style={{ opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(24px)" }}
-  >
-      <div className="max-w-5xl mx-auto">
-        <p className="text-xs tracking-widest text-gray-400 mb-2">{t.label}</p>
-        <h2 className="text-3xl font-light text-gray-900 mb-4" style={{ fontFamily: "var(--font-playfair)" }}>
-          {t.title}
-        </h2>
-        <p className="text-sm text-gray-500 mb-12">{t.desc}</p>
+    <SectionWrapper id="contact" label="CONTACT" title="Contact">
+      <p className="text-primary/50 -mt-8 mb-12">{t.desc}</p>
 
-        {sent ? (
-          <div className="text-center py-16">
-            <p className="text-gray-600">{t.sent}</p>
+      {sent ? (
+        <div className="text-center py-16">
+          <p className="text-primary/60">{t.sent}</p>
+        </div>
+      ) : (
+        <form onSubmit={handleSubmit} className="max-w-lg space-y-6">
+          {[
+            { id: "name", label: "NAME", type: "text", placeholder: t.name },
+            { id: "email", label: "EMAIL", type: "email", placeholder: t.email },
+          ].map(({ id, label, type, placeholder }) => (
+            <div key={id}>
+              <label className="label block mb-2">{label}</label>
+              <input
+                type={type}
+                name={id}
+                required
+                value={formData[id as keyof typeof formData]}
+                onChange={handleChange}
+                className="w-full border-b border-primary/20 py-2 text-primary/80 bg-transparent outline-none focus:border-accent transition-colors"
+                placeholder={placeholder}
+              />
+            </div>
+          ))}
+          <div>
+            <label className="label block mb-2">MESSAGE</label>
+            <textarea
+              name="message"
+              required
+              value={formData.message}
+              onChange={handleChange}
+              rows={5}
+              className="w-full border-b border-primary/20 py-2 text-primary/80 bg-transparent outline-none focus:border-accent transition-colors resize-none"
+              placeholder={t.message}
+            />
           </div>
-        ) : (
-          <form onSubmit={handleSubmit} className="max-w-lg space-y-6">
-            <div>
-              <label className="text-xs tracking-widest text-gray-400 block mb-2">
-                NAME
-              </label>
-              <input
-                type="text"
-                name="name"
-                required
-                value={formData.name}
-                onChange={handleChange}
-                className="w-full border-b border-gray-200 py-2 text-sm text-gray-700 bg-transparent outline-none focus:border-gray-500 transition-colors"
-                placeholder={t.name}
-              />
-            </div>
-            <div>
-              <label className="text-xs tracking-widest text-gray-400 block mb-2">
-                EMAIL
-              </label>
-              <input
-                type="email"
-                name="email"
-                required
-                value={formData.email}
-                onChange={handleChange}
-                className="w-full border-b border-gray-200 py-2 text-sm text-gray-700 bg-transparent outline-none focus:border-gray-500 transition-colors"
-                placeholder={t.email}
-              />
-            </div>
-            <div>
-              <label className="text-xs tracking-widest text-gray-400 block mb-2">
-                MESSAGE
-              </label>
-              <textarea
-                name="message"
-                required
-                value={formData.message}
-                onChange={handleChange}
-                rows={5}
-                className="w-full border-b border-gray-200 py-2 text-sm text-gray-700 bg-transparent outline-none focus:border-gray-500 transition-colors resize-none"
-                placeholder={t.message}
-              />
-            </div>
-            <button
-              type="submit"
-              className="bg-gray-900 text-white text-xs tracking-widest px-8 py-3 rounded-full hover:bg-gray-700 transition-colors"
-            >
-              {t.send}
-            </button>
-          </form>
-        )}
+          <Button type="submit">{t.send}</Button>
+        </form>
+      )}
 
-        <div className="mt-16 pt-8 border-t border-gray-100 flex items-center justify-between">
-  <p className="text-xs text-gray-400">{t.copyright}</p>
-  
-   <a href={GITHUB_URL}
-    target="_blank"
-    rel="noopener noreferrer"
-    className="text-gray-400 hover:text-gray-600 transition-colors"
-  >
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="18"
-      height="18"
-      viewBox="0 0 24 24"
-      fill="currentColor"
-    >
-      <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.385-1.335-1.755-1.335-1.755-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.605-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12z" />
-    </svg>
-  </a>
-</div>
+      <div className="mt-16 pt-8 border-t border-primary/10 flex items-center justify-between">
+        <p className="label">{COPYRIGHT}</p>
+        <a
+          href={GITHUB_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-primary/40 hover:text-primary transition-colors"
+        >
+          <GitHub />
+        </a>
       </div>
-      </div>
-    </section>
+    </SectionWrapper>
   );
 }

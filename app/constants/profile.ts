@@ -1,22 +1,7 @@
 export const STATS = [
-  {
-    ja: "5年",
-    en: "5yr",
-    labelJa: "Illustrator / Photoshop",
-    labelEn: "Illustrator / Photoshop",
-  },
-  {
-    ja: "5年",
-    en: "5yr",
-    labelJa: "HTML / CSS",
-    labelEn: "HTML / CSS",
-  },
-  {
-    ja: "3年",
-    en: "3yr",
-    labelJa: "JavaScript",
-    labelEn: "JavaScript",
-  },
+  { value: { ja: "5年", en: "5yr" }, label: "Illustrator / Photoshop" },
+  { value: { ja: "5年", en: "5yr" }, label: "HTML / CSS" },
+  { value: { ja: "3年", en: "3yr" }, label: "JavaScript" },
 ];
 
 export const HISTORY = [
@@ -51,18 +36,6 @@ export const SKILLS = [
       { name: "Google Spreadsheet", years: 1 },
       { name: "Git / GitHub", years: 1 },
     ],
-  },
-];
-
-export const WORKS = [
-  {
-    title: "洗濯日和 / Laundry weather",
-    ja: "天気データをもとに洗濯指数を算出するWebアプリ。湿度・風速・花粉・PM2.5を組み合わせた独自スコアリングを実装。",
-    en: "A web app that calculates laundry index based on weather data. Implements original scoring combining humidity, wind speed, pollen, and PM2.5.",
-    tags: ["Next.js", "TypeScript", "Tailwind CSS", "Open-Meteo API"],
-    url: "https://laundry-weather.vercel.app/",
-    github: "https://github.com/ruik0321/laundry-weather",
-    image: "/works-laundry.png",
   },
 ];
 

@@ -3,6 +3,9 @@
 import { useState, useEffect } from "react";
 import { useLang } from "../context/LangContext";
 import { GITHUB_URL } from "../constants/profile";
+import { GitHub } from "./ui/Icons";
+import Button from "./ui/Button";
+import MobileMenu from "./MobileMenu";
 
 const NAV_ITEMS = [
   { label: "About", href: "#about" },
@@ -23,91 +26,80 @@ export default function Navbar() {
   }, []);
 
   return (
-    <header
-      className={
-        scrolled
-          ? "fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-white/90 backdrop-blur-sm shadow-sm"
-          : "fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-transparent"
-      }
-    >
-      <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
-        <a href="#hero" className="text-sm font-medium tracking-widest text-gray-800">
-          RUI
-        </a>
+    <>
+     <header className="fixed top-3 left-0 right-0 z-50 flex justify-center px-8">
+  <div
+    className={`w-full max-w-7xl px-10 py-6 flex items-center justify-between rounded-full transition-all duration-300 ${
+      scrolled
+        ? "bg-white/70 backdrop-blur-md shadow-sm scale-97 origin-top"
+        : "bg-white/0"
+    }`}
+  >
 
-        <nav className="hidden md:flex items-center gap-8">
-          {NAV_ITEMS.map((item) => (
-            
-             <a key={item.label}
-              href={item.href}
-              className="text-sm text-gray-600 hover:text-gray-900 transition-colors"
-            >
-              {item.label}
-            </a>
-          ))}
-        </nav>
-
-        <div className="hidden md:flex items-center gap-4">
-          {/* 言語切り替え */}
-          <button
-            onClick={toggleLang}
-            className="text-xs text-gray-500 hover:text-gray-900 transition-colors tracking-widest"
-          >
-            {lang === "ja" ? "EN" : "JA"}
-          </button>
-
-          {/* GitHubアイコン */}
-          
-           <a href={GITHUB_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-gray-500 hover:text-gray-900 transition-colors"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="18"
-              height="18"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-            >
-              <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.385-1.335-1.755-1.335-1.755-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.605-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12z" />
-            </svg>
+          {/* ロゴ */}
+          <a href="#hero" className="text-xl font-medium tracking-widest text-primary">
+            RUI
           </a>
-        </div>
 
-        {/* ハンバーガー */}
-        <button
-          className="md:hidden text-gray-800"
-          onClick={() => setMenuOpen(!menuOpen)}
-        >
-          <div className={menuOpen ? "w-5 h-px bg-current transition-all mb-1 rotate-45 translate-y-1.5" : "w-5 h-px bg-current transition-all mb-1"} />
-          <div className={menuOpen ? "w-5 h-px bg-current transition-all mb-1 opacity-0" : "w-5 h-px bg-current transition-all mb-1"} />
-          <div className={menuOpen ? "w-5 h-px bg-current transition-all -rotate-45 -translate-y-1.5" : "w-5 h-px bg-current transition-all"} />
-        </button>
-      </div>
+          <div className="flex flex-row gap-6">
+            {/* ナビ + GitHubアイコン */}
+            <nav className="hidden md:flex items-center gap-1">
+              {NAV_ITEMS.map((item) => (
+                <a
+                  key={item.label}
+                  href={item.href}
+                  className="relative px-3 py-2 links text-primary/60 hover:text-primary transition-colors group"
+                >
+                  {item.label}
+                  <span
+                    className="absolute bottom-1 left-3 right-3 h-px scale-x-0 group-hover:scale-x-100 transition-transform duration-200 origin-left"
+                    style={{ background: "var(--color-accent)" }}
+                  />
+                </a>
+              ))}
+              <a
+                href={GITHUB_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-3 py-2 text-primary hover:text-primary/50 transition-colors"
+              >
+                <GitHub />
+              </a>
+            </nav>
 
-      {menuOpen && (
-        <div className="md:hidden bg-white/95 backdrop-blur-sm px-6 pb-4">
-          {NAV_ITEMS.map((item) => (
-            
-             <a key={item.label}
-              href={item.href}
-              onClick={() => setMenuOpen(false)}
-              className="block py-2 text-sm text-gray-600 hover:text-gray-900"
-            >
-              {item.label}
-            </a>
-          ))}
-          <div className="flex items-center gap-4 pt-2">
+            {/* 右端：言語タブ + 問い合わせ */}
+            <div className="hidden md:flex items-center gap-3">
+              <div className="flex items-center bg-primary/5 rounded-md p-0.5 text-xs">
+                <button
+                  onClick={() => lang !== "ja" && toggleLang()}
+                  className={`px-3 py-1 rounded transition-all duration-200 ${lang === "ja" ? "bg-white text-primary shadow-sm" : "text-primary/40 hover:text-primary"
+                    }`}
+                >
+                  日本語
+                </button>
+                <button
+                  onClick={() => lang !== "en" && toggleLang()}
+                  className={`px-3 py-1 rounded transition-all duration-200 ${lang === "en" ? "bg-white text-primary shadow-sm" : "text-primary/40 hover:text-primary"
+                    }`}
+                >
+                  English
+                </button>
+              </div>
+            </div>
+
+            {/* ハンバーガー（モバイル） */}
             <button
-              onClick={toggleLang}
-              className="text-xs text-gray-500 tracking-widest"
+              className="md:hidden text-primary"
+              onClick={() => setMenuOpen(true)}
             >
-              {lang === "ja" ? "EN" : "JA"}
+              <div className="w-5 h-px bg-current mb-1" />
+              <div className="w-5 h-px bg-current mb-1" />
+              <div className="w-5 h-px bg-current" />
             </button>
           </div>
         </div>
-      )}
-    </header>
+      </header>
+      <MobileMenu open={menuOpen} onClose={() => setMenuOpen(false)} />
+    </>
   );
 }

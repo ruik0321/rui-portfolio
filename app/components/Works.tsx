@@ -1,117 +1,176 @@
 "use client";
 
+import { useRef, useState, useEffect } from "react";
+import Link from "next/link";
 import { useLang } from "../context/LangContext";
-import { useScrollAnimation } from "../hooks/useScrollAnimation";
-
-const content = {
-  ja: {
-    label: "WORKS",
-    title: "Works",
-    demo: "Demo",
-    github: "GitHub",
-  },
-  en: {
-    label: "WORKS",
-    title: "Works",
-    demo: "Demo",
-    github: "GitHub",
-  },
-};
-
-const WORKS = [
-  {
-    title: "Laundry weather",
-    ja: "天気データをもとに洗濯指数を算出するWebアプリ。湿度・風速・花粉・PM2.5を組み合わせた独自スコアリングを実装。",
-    en: "A web app that calculates laundry index based on weather data. Implements original scoring combining humidity, wind speed, pollen, and PM2.5.",
-    tags: ["Next.js", "TypeScript", "Tailwind CSS", "Open-Meteo API"],
-    url: "https://laundry-weather.vercel.app/",
-    github: "https://github.com/ruik0321/laundry-weather",
-    image: "/works-laundry.png",
-  },
-  {
-    title: "veyra-copying",
-    ja: "フロントエンドエンジニアとしてのポートフォリオ制作として、FigmaテンプレートをNext.jsで模写したプロジェクト。",
-    en: "A pixel-perfect implementation of the [Veyra Figma template built as a frontend portfolio project.",
-    tags: ["Next.js", "TypeScript", "Tailwind CSS"],
-    url: "https://veyra-copying-rui-s-projects8.vercel.app/",
-    github: "https://github.com/ruik0321/veyra-copying",
-    image: "/veyra-copying.png",
-  },
-];
+import { WORKS } from "../constants/works";
+import SectionWrapper from "./ui/SectionWrapper";
+import { ArrowRight } from "./ui/Icons";
 
 export default function Works() {
-  const { ref, visible } = useScrollAnimation();
   const { lang } = useLang();
-  const t = content[lang];
+  const sliderRef = useRef<HTMLDivElement>(null);
+  const [thumbWidth, setThumbWidth] = useState(0);
+  const [thumbLeft, setThumbLeft] = useState(0);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
+
+  const startX = useRef(0);
+  const scrollLeft = useRef(0);
+  const hasDragged = useRef(false);
+  const isDragging = useRef(false);
+
+  function updateScrollbar() {
+    const el = sliderRef.current;
+    if (!el) return;
+    const ratio = el.clientWidth / el.scrollWidth;
+    const scrollRatio = el.scrollLeft / (el.scrollWidth - el.clientWidth) || 0;
+    setThumbWidth(ratio * 100);
+    setThumbLeft(scrollRatio * (100 - ratio * 100));
+    setCanScrollLeft(el.scrollLeft > 0);
+    setCanScrollRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 1);
+  }
+
+  useEffect(() => {
+    const el = sliderRef.current;
+    if (!el) return;
+    updateScrollbar();
+    el.addEventListener("scroll", updateScrollbar);
+    window.addEventListener("resize", updateScrollbar);
+    const handleMouseUp = () => { isDragging.current = false; };
+    window.addEventListener("mouseup", handleMouseUp);
+    return () => {
+      el.removeEventListener("scroll", updateScrollbar);
+      window.removeEventListener("resize", updateScrollbar);
+      window.removeEventListener("mouseup", handleMouseUp);
+    };
+  }, []);
+
+  function scrollTo(dir: "left" | "right") {
+    const el = sliderRef.current;
+    if (!el) return;
+    const cardWidth = el.clientWidth / 2 + 16;
+    el.scrollBy({ left: dir === "right" ? cardWidth : -cardWidth, behavior: "smooth" });
+  }
+
+  function handleMouseDown(e: React.MouseEvent) {
+    if (!sliderRef.current) return;
+    isDragging.current = true;
+    hasDragged.current = false;
+    startX.current = e.clientX;
+    scrollLeft.current = sliderRef.current.scrollLeft;
+  }
+
+  function handleMouseMove(e: React.MouseEvent) {
+    if (!isDragging.current || !sliderRef.current) return;
+    const walk = (e.clientX - startX.current) * 1.5;
+    if (Math.abs(walk) > 5) hasDragged.current = true;
+    sliderRef.current.scrollLeft = scrollLeft.current - walk;
+  }
+
+  function handleTouchStart(e: React.TouchEvent) {
+    if (!sliderRef.current) return;
+    hasDragged.current = false;
+    startX.current = e.touches[0].clientX;
+    scrollLeft.current = sliderRef.current.scrollLeft;
+  }
+
+  function handleTouchMove(e: React.TouchEvent) {
+    if (!sliderRef.current) return;
+    const walk = (e.touches[0].clientX - startX.current) * 1.2;
+    if (Math.abs(walk) > 5) hasDragged.current = true;
+    sliderRef.current.scrollLeft = scrollLeft.current - walk;
+  }
+
+  function NavButton({ dir }: { dir: "left" | "right" }) {
+    const active = dir === "left" ? canScrollLeft : canScrollRight;
+    return (
+      <button
+        onClick={() => active && scrollTo(dir)}
+        disabled={!active}
+        className={`w-9 h-9 rounded-full flex items-center justify-center transition-all duration-200 ${
+          active
+            ? "border border-primary/30 text-primary/60 hover:bg-primary hover:text-white hover:border-primary"
+            : "border border-primary/10 text-primary/20 cursor-default"
+        }`}
+      >
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          {dir === "left"
+            ? <path d="M10 12L6 8l4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            : <path d="M6 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+          }
+        </svg>
+      </button>
+    );
+  }
 
   return (
-    <section
-      id="works"
-      ref={ref}
-      className="py-24 px-6 bg-gray-50"
-    >
-      <div
-        className="max-w-5xl mx-auto transition-all duration-700"
-        style={{ opacity: visible ? 1 : 0, transform: visible ? "translateY(0)" : "translateY(24px)" }}
-      >
-        <div className="max-w-5xl mx-auto">
-          <p className="text-xs tracking-widest text-gray-400 mb-2">{t.label}</p>
-          <h2 className="text-3xl font-light text-gray-900 mb-12" style={{ fontFamily: "var(--font-playfair)" }}>
-            {t.title}
-          </h2>
+    <SectionWrapper id="works" label="WORKS" title="Works">
+      <div className="relative">
 
-          <div className="grid md:grid-cols-2 gap-8">
-            {WORKS.map((work) => (
-              <div
-                key={work.title}
-                className="border border-gray-100 rounded-2xl p-6 hover:shadow-md transition-shadow"
-              >
-                <div className="rounded-xl h-48 mb-6 overflow-hidden">
-                  <img
-                    src={work.image}
-                    alt={work.title}
-                    className="w-full h-full object-cover object-top"
-                  />
-                </div>
-                <h3 className="text-lg font-medium text-gray-900 mb-2">
-                  {work.title}
-                </h3>
-                <p className="text-sm text-gray-500 leading-relaxed mb-4">
-                  {work[lang]}
+        <div className="absolute -top-14 right-0 flex gap-2 z-10">
+          <NavButton dir="left" />
+          <NavButton dir="right" />
+        </div>
+
+        <div
+          ref={sliderRef}
+          className="flex gap-4 overflow-x-scroll pb-6 select-none cursor-grab active:cursor-grabbing"
+          style={{ scrollbarWidth: "none", msOverflowStyle: "none" } as React.CSSProperties}
+          onMouseDown={handleMouseDown}
+          onMouseMove={handleMouseMove}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+        >
+          {WORKS.map((work) => (
+            <Link
+              key={work.slug}
+              href={`/works/${work.slug}`}
+              onClick={(e) => hasDragged.current && e.preventDefault()}
+              className="flex-shrink-0 w-[45%] rounded-2xl overflow-hidden border border-primary/10 group block hover:shadow-md transition-shadow duration-300"
+            >
+              <div className="h-48 overflow-hidden bg-primary/5">
+                <img
+                  src={work.image}
+                  alt={work.title}
+                  className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105 pointer-events-none"
+                />
+              </div>
+              <div className="p-6">
+                <p className="label mb-2">{work.category[lang]}</p>
+                <h3 className="mb-3">{work.title}</h3>
+                <p className="text-primary/50 text-sm leading-relaxed mb-4">
+                  {work.description[lang]}
                 </p>
-                <div className="flex flex-wrap gap-2 mb-6">
-                  {work.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="text-xs text-gray-500 border border-gray-200 rounded-full px-3 py-1"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-                <div className="flex gap-4">
-
-                  <a href={work.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-xs bg-gray-900 text-white px-4 py-2 rounded-full hover:bg-gray-700 transition-colors"
-                  >
-                    {t.demo}
-                  </a>
-
-                  <a href={work.github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-xs border border-gray-300 text-gray-600 px-4 py-2 rounded-full hover:border-gray-500 transition-colors"
-                  >
-                    {t.github}
-                  </a>
+                <div className="flex items-center justify-between gap-4">
+                  <div className="flex flex-wrap gap-1">
+                    {work.tags.map((tag) => (
+                      <span key={tag} className="label bg-primary/10 rounded-full px-3 py-0.5">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                  <span className="text-primary/30 group-hover:text-accent transition-all duration-300 group-hover:translate-x-1 flex-shrink-0">
+                    <ArrowRight />
+                  </span>
                 </div>
               </div>
-            ))}
-          </div>
+            </Link>
+          ))}
+        </div>
+
+        <div className="relative h-1.5 rounded-full overflow-hidden" style={{ background: `color-mix(in srgb, var(--color-primary) 20%, transparent)` }}>
+          <div
+            className="absolute top-0 h-1.5 rounded-full"
+            style={{
+              background: "var(--color-primary)",
+              width: `${thumbWidth}%`,
+              left: `${thumbLeft}%`,
+              transition: "left 0.1s ease",
+            }}
+          />
         </div>
       </div>
-    </section>
+    </SectionWrapper>
   );
 }
