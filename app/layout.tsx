@@ -12,7 +12,7 @@ const bodyFont = DM_Sans({
 
 const bodyFontJP = Noto_Sans_JP({
   variable: "--font-body-jp",
-  subsets: ["latin", "japanese"],
+  subsets: ["latin"],
   weight: ["400", "500"],
   fallback: ["Hiragino Sans", "Yu Gothic", "sans-serif"],
 });
@@ -25,7 +25,7 @@ const headingFont = Playfair_Display({
 
 const headingFontJP = Noto_Serif_JP({
   variable: "--font-heading-jp",
-  subsets: ["latin", "japanese"],
+  subsets: ["latin"],
   weight: ["300", "400"],
   fallback: ["Hiragino Sans", "sans-serif"],
 });
