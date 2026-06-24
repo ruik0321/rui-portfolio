@@ -85,4 +85,23 @@ export const WORKS: Work[] = [
     image: "/aelz.jpg",
     period: { ja: "2024年6月", en: "Jun 2024" },
   },
+  {
+    slug: "yamanaka-music",
+    title: "山中音楽教室",
+    category: { ja: "Web開発", en: "Web Development" },
+    description: {
+      ja: "ピアノ・音楽教室のWixサイトをWordPress（SWELL）へ移植。ACF・プラグインを使わず、カスタム投稿タイプやお問い合わせ機能をすべて自作したポートフォリオ案件。",
+      en: "Migrated a piano school's Wix site to WordPress (SWELL). Built custom post types and a contact form entirely from scratch, without ACF or plugins, as a portfolio project.",
+    },
+    detail: {
+      ja: "ピアノ・音楽教室の既存Wixサイトを、WordPress（SWELL子テーマ）へ移植するポートフォリオ案件として制作しました。\n\n実案件としての移行ではなく学習・ポートフォリオ目的のため、あえて難易度を上げ、ACFや既製プラグインに頼らず、カスタム投稿タイプ・メタボックス・お問い合わせフォームをすべて自作PHP/JSで実装する方針を取りました。\n\n具体的には、レッスンコースや発表会写真を運営者が管理画面から追加・編集できるよう、`register_post_type`と`add_meta_box`を使った独自のカスタムフィールドを構築。写真ギャラリーでは、ACFのリピーターフィールドに相当する複数画像のドラッグ＆ドロップ並び替え機能を、`wp.media`と`jQuery UI Sortable`を組み合わせてゼロから実装しました。\n\nお問い合わせフォームは、無料ホスティング（InfinityFree）のCPU制限を踏まえてプラグインを使わず、nonce・サニタイズ・エスケープによる基本対策に加え、ハニーポット・送信時間チェック・簡易計算クイズの3段階でスパムを防止。送信内容は確認画面を経てメール送信されるとともに、未達時の保険としてデータベースにも保存する設計にしています。\n\nヘッダー・フッターはSWELLのフックと管理画面の「メニュー」機能を連動させ、コードを直接編集せずに運営者がナビゲーションを更新できるようにしました。",
+      en: "I created this site as a portfolio project, migrating an existing piano school's Wix site to WordPress using a SWELL child theme.\n\nSince this was a learning/portfolio exercise rather than a client migration, I deliberately raised the difficulty by avoiding ACF and off-the-shelf plugins, building custom post types, meta boxes, and the contact form entirely with hand-written PHP and JavaScript.\n\nSpecifically, I built custom fields using `register_post_type` and `add_meta_box` so the site owner can add and edit lesson courses and recital photos directly from the admin dashboard. For the photo gallery, I implemented a drag-and-drop multi-image reordering feature — equivalent to an ACF repeater field — from scratch using `wp.media` and `jQuery UI Sortable`.\n\nGiven the CPU limits of the free hosting plan (InfinityFree), the contact form avoids plugins entirely. Beyond nonce verification, sanitization, and escaping, it layers three levels of spam protection: a honeypot field, a submission-timing check, and a simple math CAPTCHA. Submissions go through a confirmation step before being emailed, and are also saved to the database as a fallback in case email delivery fails.\n\nThe header and footer are tied into SWELL's hooks alongside the native WordPress Menu feature, so the site owner can update navigation without touching any code.",
+    },
+    tags: ["WordPress", "PHP", "SWELL", "jQuery", "infinityfree"],
+    url: "https://yamanaka-music.freehosting.dev/",
+    github: "https://github.com/ruik0321/swell_child",
+    screenshots: ["/yamanaka-music.png"],
+    image: "/yamanaka-music.png",
+    period: { ja: "2026年6月", en: "Jun 2026" },
+  },
 ];
