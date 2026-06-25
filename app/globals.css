@@ -4,9 +4,9 @@
   --color-primary: #171717;
   --color-white: #ffffff;
   --color-accent: #0f766e;
-  --font-sans: var(--font-body), var(--font-body-jp), sans-serif;
 }
 
+/* ===== Base ===== */
 *,
 *::after,
 *::before {
@@ -25,39 +25,34 @@ body {
   background-color: var(--color-white);
 }
 
-.bg-grid::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background-image: 
-    linear-gradient(to right, var(--color-primary) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--color-primary) 1px, transparent 1px);
-  background-size: 80px 80px;
-  opacity: 0.08;
-  z-index: -1;
-}
-/* Typography - デスクトップ */
+/* ===== Typography - デスクトップ ===== */
 h1 { font-family: var(--font-heading); font-size: 4.5rem; line-height: 110%; letter-spacing: -0.03em; }
 h2 { font-family: var(--font-heading); font-size: 3.5rem; line-height: 110%; letter-spacing: -0.02em; }
-h3 { font-family: var(--font-heading-jp); font-size: 2.75rem; line-height: 110%; letter-spacing: -0.02em; }
-h4 { font-family: var(--font-heading-jp); font-size: 2.25rem; line-height: 110%; letter-spacing: -0.02em; }
+h3 { font-family: var(--font-heading); font-size: 2.75rem; line-height: 110%; letter-spacing: -0.02em; }
+h4 { font-family: var(--font-heading); font-size: 2.25rem; line-height: 110%; letter-spacing: -0.02em; }
 h5 { font-family: var(--font-body), var(--font-body-jp); font-size: 1.25rem; line-height: 130%; letter-spacing: -0.02em; font-weight: 500; }
 
-/* Typography - モバイル */
+/* ===== Typography - モバイル ===== */
 @media (max-width: 1024px) {
   body { font-size: 0.875rem; }
-  h1 { font-size: 5.5rem; }
+  h1 { font-size: 2.5rem; }
   h2 { font-size: 2.25rem; }
   h3 { font-size: 2rem; }
   h4 { font-size: 1.5rem; }
   h5 { font-size: 1rem; }
 }
 
-/* ユーティリティ */
-.label { font-size: 0.75rem; line-height: 140%; letter-spacing: 0.07em; text-transform: uppercase; opacity: 0.4; }
-.links { font-size: 0.875rem; line-height: 150%; }
+/* ===== ユーティリティ ===== */
+.label { font-family: var(--font-body); font-size: 0.75rem; line-height: 140%; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.4; }
+.links { font-family: var(--font-body), var(--font-body-jp); font-size: 0.875rem; line-height: 150%; }
 
-/* Animations */
+/* 両端をフェードさせるマスク（マーキーなどで使用） */
+.fade-mask {
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, black 12%, black 88%, transparent 100%);
+  mask-image: linear-gradient(90deg, transparent 0%, black 12%, black 88%, transparent 100%);
+}
+
+/* ===== Animations: keyframes ===== */
 @keyframes fadeInUp {
   from { opacity: 0; transform: translateY(24px); }
   to { opacity: 1; transform: translateY(0); }
@@ -68,8 +63,15 @@ h5 { font-family: var(--font-body), var(--font-body-jp); font-size: 1.25rem; lin
   to { opacity: 1; }
 }
 
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); } /* コンテンツを2セット並べているので半分動かせば1周分になる */
+}
+
+/* ===== Animations: classes ===== */
 .animate-fade-in-up { animation: fadeInUp 0.7s ease-out forwards; }
 .animate-fade-in { animation: fadeIn 0.7s ease-out forwards; }
+.animate-marquee { animation: marquee 35s linear infinite; }
 
 .delay-100 { animation-delay: 0.1s; }
 .delay-200 { animation-delay: 0.2s; }

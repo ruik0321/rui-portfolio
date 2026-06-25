@@ -92,17 +92,6 @@ export default function Contact() {
         </form>
       )}
 
-      <div className="mt-16 pt-8 border-t border-primary/10 flex items-center justify-between">
-        <p className="label">{COPYRIGHT}</p>
-        <a
-          href={GITHUB_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-primary/40 hover:text-primary transition-colors"
-        >
-          <GitHub />
-        </a>
-      </div>
     </SectionWrapper>
   );
 }

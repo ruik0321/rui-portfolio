@@ -8,10 +8,10 @@ import Button from "./ui/Button";
 import MobileMenu from "./MobileMenu";
 
 const NAV_ITEMS = [
-  { label: "About", href: "#about" },
-  { label: "Skills", href: "#skills" },
-  { label: "Works", href: "#works" },
-  { label: "Contact", href: "#contact" },
+  { label: "About", href: "/#about" },
+  { label: "Skills", href: "/#skills" },
+  { label: "Works", href: "/#works" },
+  { label: "Contact", href: "/#contact" },
 ];
 
 export default function Navbar() {
@@ -37,7 +37,7 @@ export default function Navbar() {
   >
 
           {/* ロゴ */}
-          <a href="#hero" className="text-xl font-medium tracking-widest text-primary">
+          <a href="/#hero" className="text-xl font-medium tracking-widest text-primary">
             RUI
           </a>
 

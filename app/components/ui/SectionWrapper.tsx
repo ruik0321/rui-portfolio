@@ -7,7 +7,13 @@ type SectionWrapperProps = {
   label: string;
   title: string;
   children: React.ReactNode;
-  reversed?: boolean;
+  variant?: "white" | "muted" | "primary";
+};
+
+const variantStyles = {
+  white: "bg-white",
+  muted: "bg-primary/50",
+  primary: "bg-primary text-white",
 };
 
 export default function SectionWrapper({
@@ -15,7 +21,7 @@ export default function SectionWrapper({
   label,
   title,
   children,
-  reversed = false,
+  variant = "white",
 }: SectionWrapperProps) {
   const { ref, visible } = useScrollAnimation();
 
@@ -23,7 +29,7 @@ export default function SectionWrapper({
     <section
       id={id}
       ref={ref}
-      className={`py-24 px-6 ${reversed ? "bg-primary text-white" : "bg-white"}`}
+      className={`py-24 px-6 ${variantStyles[variant]}`}
     >
       <div
         className={`max-w-5xl mx-auto transition-all duration-700 ${visible ? "animate-fade-in-up" : "opacity-0"}`}

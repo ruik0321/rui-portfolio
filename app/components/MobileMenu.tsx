@@ -4,12 +4,11 @@ import { useLang } from "../context/LangContext";
 import Button from "./ui/Button";
 
 const NAV_ITEMS = [
-  { label: "About", href: "#about" },
-  { label: "Skills", href: "#skills" },
-  { label: "Works", href: "#works" },
-  { label: "Contact", href: "#contact" },
+  { label: "About", href: "/#about" },
+  { label: "Skills", href: "/#skills" },
+  { label: "Works", href: "/#works" },
+  { label: "Contact", href: "/#contact" },
 ];
-
 type Props = {
   open: boolean;
   onClose: () => void;

@@ -6,7 +6,7 @@ A portfolio site for Rui.
 
 ## URL
 
-https://rui-portfolio-rui-s-projects8.vercel.app/
+https://rui-portfolio-azure.vercel.app
 
 ## 構成 / Sections
 

@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { WORKS } from "../../constants/works";
+import Footer from "../../components/Footer";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -20,15 +21,7 @@ export default async function WorkPage({ params }: Props) {
 
   return (
     <main className="min-h-screen bg-white px-6 py-24">
-      <div className="max-w-5xl mx-auto">
-
-        {/* 戻るリンク */}
-        <Link
-          href="/#works"
-          className="text-xs tracking-widest text-gray-400 hover:text-gray-700 transition-colors mb-12 inline-block"
-        >
-          ← WORKS
-        </Link>
+      <div className="max-w-5xl mx-auto mt-16">
 
         {/* タイトル */}
         <h1
@@ -73,7 +66,7 @@ export default async function WorkPage({ params }: Props) {
         </p>
 
         {/* メタ情報 */}
-        <div className="border-t border-gray-100 pt-8 space-y-6">
+        <div className="border-t border-gray-100 py-8 space-y-6">
           <div>
             <p className="text-xs tracking-widest text-gray-400 mb-3">TECH</p>
             <div className="flex flex-wrap gap-2">
@@ -112,8 +105,16 @@ export default async function WorkPage({ params }: Props) {
             </a>
           </div>
         </div>
+                {/* 戻るリンク */}
+        <Link
+          href="/#works"
+          className="text-xs tracking-widest text-gray-400 hover:text-gray-700 transition-colors mb-12 inline-block"
+        >
+          ← WORKS
+        </Link>
 
       </div>
+      <Footer />
     </main>
   );
 }
